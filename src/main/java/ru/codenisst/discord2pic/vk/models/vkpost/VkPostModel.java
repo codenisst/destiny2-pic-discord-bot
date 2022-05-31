@@ -1,6 +1,6 @@
-package ru.codenisst.discord2pic.vk.models.post;
+package ru.codenisst.discord2pic.vk.models.vkpost;
 
-public class VkPost {
+public class VkPostModel {
 
     private Donut donut;
     private Comments comments;
