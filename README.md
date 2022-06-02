@@ -12,7 +12,7 @@ ATTENTION: The bot requires unique data, such as "botToken", "mainRole",
 "userId", "access_token", "domain", in botConfig.properties and vkConfig.properties files (users whose role name 
 is specified in the "mainRole" field can control the bot).
 
-Learn more here -> [Discord API] (https://discord.com/developers), [VK API] (https://dev.vk.com/api/access-token/getting-started)
+Learn more here -> [Discord API](https://discord.com/developers), [VK API](https://dev.vk.com/api/access-token/getting-started)
 
 ### ! List of commands !
 Commands marked with (*) are only available to users with "mainRole" role (see botConfig.properties).
