@@ -1,37 +1,55 @@
-![logo](https://i.ibb.co/7Gm41Zb/crug2.png)
+![logo](https://i.ibb.co/s20x2Yf/logo.png)
 
-# Discord bot "Destiny2Pic".
+# Discord-bot "Destiny2Pic".
 
-Parses images from a specified public VK group and sends them to the appropriate Discord channel.
+Parses images from the specified public group in the social network "VKontakte" and sends them
+to the server channel in Discord from which the request was received.
 
-This bot was developed for a specific task, but note that it can be adapted to parsing any data from
-VKontakte social network (via VK API).
+This bot was developed for a specific task, but note that it can be adapted for parsing
+any data from social network "VKontakte" (via VK API).
 
-Please note that the bot requires you to specify unique data, such as "botToken", "userId",
-"access_token", "domain", in botConfig.properties and vkConfig.properties files.
-You can learn more here -> [Discord API](https://discord.com/developers)
-And here -> [VK API](https://dev.vk.com/api/access-token/getting-started)
+ATTENTION: The bot requires unique data, such as "botToken", "mainRole",
+"userId", "access_token", "domain", in botConfig.properties and vkConfig.properties files (users whose role name 
+is specified in the "mainRole" field can control the bot).
+
+Learn more here -> [Discord API] (https://discord.com/developers), [VK API] (https://dev.vk.com/api/access-token/getting-started)
 
 ### ! List of commands !
+Commands marked with (*) are only available to users with "mainRole" role (see botConfig.properties).
 ```
-*functional will be implemented later*
+!picture - parses and sends new posts to the chat
+!auto - turn on autoposting (*) (by default parsing and posting occurs every 30 minutes)
+!offAuto - turns off autoposting (*)
+!status - allows to change bot's status (*)
+!disconnect - turns bot off (*)
+
+*functional is gradually expanding*
 ```
 
 ---------------------------------------------------------------------------
 
-# Discord bot "Destiny2Pic".
+# Discord-бот "Destiny2Pic".
 
-Парсит изображения из указанной публичной группы в VK и присылает их в соответствующий канал в Discord.
+Парсит изображения из указанной публичной группы в социальной сети "ВКонтакте" и присылает их 
+в тот канал сервера в Discord, из которого поступил запрос.
 
 Данный бот был разработан под определенную задачу, но учтите, что его можно адаптировать для парсинга
-любых данных из социальной сети VKontakte (через VK API).
+любых данных из социальной сети ВКонтакте (через VK API).
 
-Обратите внимание, что для работы бота требуется указание уникальных данных, таких как "botToken",
-"userId", "access_token", "domain", в файлах botConfig.properties и vkConfig.properties.
-Больше вы можете узнать тут -> [Discord API](https://discord.com/developers)
-И тут -> [VK API](https://dev.vk.com/api/access-token/getting-started)
+ВНИМАНИЕ: Для работы бота требуется указание уникальных данных, таких как "botToken", "mainRole",
+"userId", "access_token", "domain", в файлах botConfig.properties и vkConfig.properties (пользователи с ролью, 
+название которой указано в поле "mainRole", могут управлять ботом).
+
+Больше вы можете узнать тут -> [Discord API](https://discord.com/developers), [VK API](https://dev.vk.com/api/access-token/getting-started)
 
 ### ! Список команд !
+Команды, помеченные (*), доступны только пользователям с ролью "mainRole" (смотреть botConfig.properties).
 ```
-*функционал будет реализован позже*
+!picture - парсит и отправляет в чат новые посты
+!auto - включает автопостинг (*) (по дефолту парсинг и постинг проиходит каждые 30 минут)
+!offAuto - отключает автопостинг (*)
+!status - позволяет сменить статус бота (*)
+!disconnect - выключает бота (*)
+
+*функционал постепенно дополняется*
 ```

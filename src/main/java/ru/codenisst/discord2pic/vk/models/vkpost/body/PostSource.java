@@ -1,4 +1,4 @@
-package ru.codenisst.discord2pic.vk.models.vkpost;
+package ru.codenisst.discord2pic.vk.models.vkpost.body;
 
 public class PostSource {
 
@@ -9,15 +9,7 @@ public class PostSource {
         return platform;
     }
 
-    public void setPlatform(String value) {
-        this.platform = value;
-    }
-
     public String getType() {
         return type;
-    }
-
-    public void setType(String value) {
-        this.type = value;
     }
 }

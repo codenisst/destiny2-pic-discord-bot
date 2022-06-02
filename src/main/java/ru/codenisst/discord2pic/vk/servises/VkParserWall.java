@@ -1,4 +1,4 @@
-package ru.codenisst.discord2pic.vk.servises.vk;
+package ru.codenisst.discord2pic.vk.servises;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Properties;
 
 //  Парсер постов со стены паблика в VK
-public class VkParserWall {
+class VkParserWall {
 
     // Конфигурация с данными пользователя для парсинга
     private static final Properties CONFIG = new Properties();

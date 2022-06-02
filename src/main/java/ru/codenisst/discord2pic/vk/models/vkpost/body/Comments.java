@@ -1,4 +1,4 @@
-package ru.codenisst.discord2pic.vk.models.vkpost;
+package ru.codenisst.discord2pic.vk.models.vkpost.body;
 
 public class Comments {
 
@@ -10,23 +10,11 @@ public class Comments {
         return canPost;
     }
 
-    public void setCanPost(String value) {
-        this.canPost = value;
-    }
-
     public long getCount() {
         return count;
     }
 
-    public void setCount(long value) {
-        this.count = value;
-    }
-
     public boolean getGroupsCanPost() {
         return groupsCanPost;
-    }
-
-    public void setGroupsCanPost(boolean value) {
-        this.groupsCanPost = value;
     }
 }
