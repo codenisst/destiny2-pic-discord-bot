@@ -73,6 +73,26 @@ public class CommandListener implements MessageCreateListener {
                 event.getChannel().sendMessage(Phrase.NO_RIGHT.get());
                 break;
             }
+            case "!help": {
+                event.deleteMessage();
+                event.getChannel().sendMessage("""
+                        **Вот что я умею!**
+                        
+                          - команды для обычных пользователей:
+                        ```
+                        !picture - я проверю, появились ли новые посты. Если да - пришлю их сюда.
+                        !help - получить справку по командам
+                        ```
+                          - команды для модераторов:
+                        ```
+                        !auto - включает автопостинг (*) (по дефолту парсинг и постинг проиcходит каждые 30 минут)
+                        !offAuto - отключает автопостинг (*)
+                        !status - позволяет сменить статус бота (*)
+                        !disconnect - выключает бота (*)
+                        ```
+                        """);
+                break;
+            }
         }
     }
 

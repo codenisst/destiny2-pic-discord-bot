@@ -18,10 +18,11 @@ Learn more here -> [Discord API] (https://discord.com/developers), [VK API] (htt
 Commands marked with (*) are only available to users with "mainRole" role (see botConfig.properties).
 ```
 !picture - parses and sends new posts to the chat
-!auto - turn on autoposting (*) (by default parsing and posting occurs every 30 minutes)
-!offAuto - turns off autoposting (*)
-!status - allows to change bot's status (*)
-!disconnect - turns bot off (*)
+!help - get help on commands
+!auto (*) - turn on autoposting (by default parsing and posting occurs every 30 minutes)
+!offAuto (*) - turns off autoposting 
+!status (*) - allows to change bot's status
+!disconnect (*) - turns bot off
 
 *functional is gradually expanding*
 ```
@@ -46,10 +47,11 @@ Commands marked with (*) are only available to users with "mainRole" role (see b
 Команды, помеченные (*), доступны только пользователям с ролью "mainRole" (смотреть botConfig.properties).
 ```
 !picture - парсит и отправляет в чат новые посты
-!auto - включает автопостинг (*) (по дефолту парсинг и постинг проиходит каждые 30 минут)
-!offAuto - отключает автопостинг (*)
-!status - позволяет сменить статус бота (*)
-!disconnect - выключает бота (*)
+!help - получить справку по командам
+!auto (*) - включает автопостинг (по дефолту парсинг и постинг проиcходит каждые 30 минут)
+!offAuto (*) - отключает автопостинг
+!status (*) - позволяет сменить статус бота
+!disconnect (*) - выключает бота
 
 *функционал постепенно дополняется*
 ```
