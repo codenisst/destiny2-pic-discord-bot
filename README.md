@@ -23,6 +23,8 @@ Commands marked with (*) are only available to users with "mainRole" role (see b
 !offAuto (*) - turns off autoposting 
 !status (*) - allows to change bot's status
 !disconnect (*) - turns bot off
+!addGroup (*) - allows you to add groups to the bot parser
+!stop (*) - tells the bot that the desired groups are specified
 
 *functional is gradually expanding*
 ```
@@ -52,6 +54,8 @@ Commands marked with (*) are only available to users with "mainRole" role (see b
 !offAuto (*) - отключает автопостинг
 !status (*) - позволяет сменить статус бота
 !disconnect (*) - выключает бота
+!addGroup (*) - позволяет добавлять группы в парсер ботов
+!stop (*) - сообщает боту о том, что нужные группы указаны
 
 *функционал постепенно дополняется*
 ```
