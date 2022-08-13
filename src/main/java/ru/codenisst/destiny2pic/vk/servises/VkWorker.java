@@ -179,7 +179,6 @@ public class VkWorker {
                         content.add(new Content(++contentID, typeContent, attachmentSizes.get(0).getUrl()));
                         break;
                     }
-                    default:
                 }
             }
         }
