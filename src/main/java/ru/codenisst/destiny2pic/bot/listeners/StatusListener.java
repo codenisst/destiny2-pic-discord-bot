@@ -3,14 +3,17 @@ package ru.codenisst.destiny2pic.bot.listeners;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
 import ru.codenisst.destiny2pic.bot.Configurator;
+import ru.codenisst.destiny2pic.bot.commands.Status;
 import ru.codenisst.destiny2pic.bot.speech.Phrase;
 
 public class StatusListener implements MessageCreateListener {
 
     private final Configurator configurator;
+    private final Status status;
 
-    public StatusListener(Configurator configurator) {
+    public StatusListener(Configurator configurator, Status status) {
         this.configurator = configurator;
+        this.status = status;
     }
 
     @Override
@@ -18,8 +21,9 @@ public class StatusListener implements MessageCreateListener {
 
         if (!event.getMessageContent().equals(Phrase.PLAYING.get())) {
             configurator.setStatus(event.getMessageContent());
-            event.getChannel().sendMessage("Теперь я играю в " + event.getMessageContent() + " \uD83D\uDE0E");
-            configurator.disableListener(this);
+            event.getChannel().sendMessage("Теперь я играю в " +
+                    event.getMessageContent() + " \uD83D\uDE0E");
+            status.end(this);
         }
     }
 }

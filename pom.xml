@@ -11,6 +11,7 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <javacord-version>3.5.0</javacord-version>
     </properties>
 
     <dependencies>
@@ -24,14 +25,14 @@
         <dependency>
             <groupId>org.javacord</groupId>
             <artifactId>javacord-core</artifactId>
-            <version>3.4.0</version>
+            <version>${javacord-version}</version>
             <scope>runtime</scope>
         </dependency>
 
         <dependency>
             <groupId>org.javacord</groupId>
             <artifactId>javacord</artifactId>
-            <version>3.4.0</version>
+            <version>${javacord-version}</version>
             <type>pom</type>
         </dependency>
 
@@ -41,5 +42,5 @@
             <version>3.36.0.3</version>
         </dependency>
     </dependencies>
-
 </project>
+

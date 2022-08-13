@@ -17,14 +17,18 @@ Learn more here -> [Discord API](https://discord.com/developers), [VK API](https
 ### ! List of commands !
 Commands marked with (*) are only available to users with "mainRole" role (see botConfig.properties).
 ```
-!picture - parses and sends new posts to the chat
+!picture - parses and sends new posts with pictures to the chat
 !help - get help on commands
 !auto (*) - turn on autoposting (by default parsing and posting occurs every 30 minutes)
-!offAuto (*) - turns off autoposting 
+!offAuto (*) - turn off autoposting 
 !status (*) - allows to change bot's status
-!disconnect (*) - turns bot off
-!addGroup (*) - allows you to add groups to the bot parser
-!stop (*) - tells the bot that the desired groups are specified
+!disconnect (*) - disconnects bot
+!addGroups (*) - allows you to add groups to the bot parser
+!groupList (*) - sends the list of groups, with which the bot parser is working at the moment
+!deleteGroups (*) - deletes groups from the bot parser
+!deleteAllGroups (*) - deletes ALL groups from the bot parser
+!stop (*) - tells the bot that the desired groups are specified, 
+required to complete the !addGroups, !deleteGroups, !deleteAllGroups
 
 *functional is gradually expanding*
 ```
@@ -48,14 +52,18 @@ Commands marked with (*) are only available to users with "mainRole" role (see b
 ### ! Список команд !
 Команды, помеченные (*), доступны только пользователям с ролью "mainRole" (смотреть botConfig.properties).
 ```
-!picture - парсит и отправляет в чат новые посты
-!help - получить справку по командам
+!picture - парсит и отправляет в чат новые посты с изображениями
+!help - присылает справку по командам
 !auto (*) - включает автопостинг (по дефолту парсинг и постинг проиcходит каждые 30 минут)
 !offAuto (*) - отключает автопостинг
 !status (*) - позволяет сменить статус бота
 !disconnect (*) - выключает бота
-!addGroup (*) - позволяет добавлять группы в парсер ботов
-!stop (*) - сообщает боту о том, что нужные группы указаны
+!addGroups (*) - позволяет добавлять группы в парсер бота
+!groupList (*) - присылает список групп, с которыми на данный момент работает парсер
+!deleteGroups (*) - удаляет группы из парсера бота
+!deleteAllGroups (*) - удаляет ВСЕ группы из парсера бота
+!stop (*) - сообщает боту о том, что нужные группы указаны, 
+обязательна для завершения работы команд !addGroups, !deleteGroups, !deleteAllGroups
 
 *функционал постепенно дополняется*
 ```

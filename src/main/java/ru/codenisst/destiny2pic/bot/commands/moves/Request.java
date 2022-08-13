@@ -1,4 +1,4 @@
-package ru.codenisst.destiny2pic.bot.moves;
+package ru.codenisst.destiny2pic.bot.commands.moves;
 
 import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.event.message.MessageCreateEvent;
@@ -14,9 +14,9 @@ import java.util.List;
 
 public class Request {
 
-    private VkDispatcher vkDispatcher;
+    private final VkDispatcher vkDispatcher;
 
-    public Request( VkDispatcher vkDispatcher) {
+    public Request(VkDispatcher vkDispatcher) {
         this.vkDispatcher = vkDispatcher;
     }
 
@@ -36,7 +36,7 @@ public class Request {
         }
     }
 
-    public void createMessagePart(MessageCreateEvent event, List<Post> posts) throws IOException {
+    private void createMessagePart(MessageCreateEvent event, List<Post> posts) throws IOException {
         for (Post post : posts) {
             MessageBuilder messagePost = new MessageBuilder().
                     append(Phrase.DELIMITER.get()).append(post.getText());

@@ -1,5 +1,7 @@
 package ru.codenisst.destiny2pic.vk.models;
 
+import ru.codenisst.destiny2pic.vk.servises.ContentType;
+
 import java.util.Objects;
 
 public class Content {
@@ -35,7 +37,15 @@ public class Content {
 
         if (id != content.id) return false;
         if (!Objects.equals(type, content.type)) return false;
-        return Objects.equals(url, content.url);
+
+        if (this.type.equals(ContentType.PHOTO.get())) {
+            String[] urlArray = url.split("/");
+            String[] contentUrlArray = content.url.split("/");
+
+            return Objects.equals(urlArray[urlArray.length - 1],
+                    contentUrlArray[contentUrlArray.length - 1]);
+        }
+        return false;
     }
 
     @Override

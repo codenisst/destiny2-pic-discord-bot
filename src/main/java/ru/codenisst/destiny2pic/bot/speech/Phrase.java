@@ -47,7 +47,7 @@ public enum Phrase implements Returner {
     ALARM {
         @Override
         public String get() {
-            return "Срочно обратись к админу! \n";
+            return "**Срочно обратись к админу!** \n";
         }
     },
     DELIMITER {
@@ -56,12 +56,22 @@ public enum Phrase implements Returner {
             return "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n";
         }
     },
-    GROUP_ADD {
+    WHAT_GROUP_TO_ADD {
         @Override
         public String get() {
-            return "С какой группой начать работать? " +
-                    "Напиши в формате:\n" +
-                    " (ссылка на группу) : (количество запрашиваемых постов)";
+            return """
+                    С какой группой начать работать?
+                    ```Напиши в любом нижеизложенном варианте:
+                    1) (ссылка на группу)
+                    2) (ссылка на группу) : (тип контента)
+                    3) (ссылка на группу) : (количество постов)
+                    4) (ссылка на группу) : (количество постов) : (тип контента)```
+                    _Тип контента может быть указан из следующих: photo .
+                    Если не указано количество запрашиваемых постов, то по дефолту будет парситься 5 последних постов.
+                    Если не указан тип контента, то по умолчанию будут парситься только посты с изображениями._
+
+                    **! ВАЖНО !**
+                    _После указания групп не забудьте использовать команду_ ***!stop***""";
         }
     },
     GROUP_ALREADY_ADDED {
@@ -83,7 +93,11 @@ public enum Phrase implements Returner {
                         ```
                           - команды для модераторов:
                         ```
-                        !auto - включает автопостинг (*) (по дефолту парсинг и постинг проиcходит каждые 30 минут)
+                        !groupList - публикуется список групп, из которых парсятся посты на данный момент (*)
+                        !addGroups - позволяет добавить в наблюдение новую группу (группы), по определенным паттернам (*)
+                        !deleteGroups - позволяет удалить из наблюдения группу (*) (группы)
+                        !deleteAllGroups - удаляет ВСЕ группы из парсера бота (*)
+                        !auto - включает автопостинг (*) (по дефолту парсинг и постинг каждые 30 минут)
                         !offAuto - отключает автопостинг (*)
                         !status - позволяет сменить статус бота (*)
                         !disconnect - выключает бота (*)
@@ -96,6 +110,81 @@ public enum Phrase implements Returner {
         public String get() {
             return "Укажите, во что мне играть!";
         }
+    },
+    NOT_FOUND_GROUP {
+        @Override
+        public String get() {
+            return "Никаких групп не добавлено!";
+        }
+    },
+    GROUP_ADDED {
+        @Override
+        public String get() {
+            return "Группа добавлена!";
+        }
+    },
+    WATCHING {
+        @Override
+        public String get() {
+            return "Начинаю следить за этими группами!\n";
+        }
+    },
+    GROUP_INFO {
+        @Override
+        public String get() {
+            return "На данный момент я работаю над этими группами:";
+        }
+    },
+    WHAT_GROUP_TO_DELETE {
+        @Override
+        public String get() {
+            return """
+                    Какую группу удалить?
+                    
+                    **! ВАЖНО !**
+                    _После указания групп не забудьте использовать команду_ ***!stop***""";
+        }
+    },
+    GROUP_IS_DELETED {
+        @Override
+        public String get() {
+            return "Группа удалена!";
+        }
+    },
+    NOTHING_DELETE {
+        @Override
+        public String get() {
+            return "А удалять то и нечего было...";
+        }
+    },
+    GROUP_MISSING {
+        @Override
+        public String get() {
+            return "Таких групп в работе нет!";
+        }
+    },
+    DISCONNECT {
+        @Override
+        public String get() {
+            return "\uD83D\uDCA4";
+        }
+    },
+    UNKNOWN_COMMAND {
+        @Override
+        public String get() {
+            return "Неизвестная команда!";
+        }
+    },
+    INCORRECT_LINK {
+        @Override
+        public String get() {
+            return "Некорректная ссылка или паттерн сообщения!";
+        }
+    },
+    ALL_GROUPS_REMOVED {
+        @Override
+        public String get() {
+            return "Все группы удалены!";
+        }
     }
-
 }

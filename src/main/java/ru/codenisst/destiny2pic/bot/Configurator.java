@@ -14,7 +14,7 @@ public class Configurator {
 
     private DiscordApi api;
     private Properties config;
-    private final String DEFAULT_STATUS = "поиск картинощек!";
+    private final String DEFAULT_STATUS = "!help";
     private final ActivityType ACTIVITY = ActivityType.PLAYING;
     private boolean autoWork = false;
     private String mainRole;
@@ -32,28 +32,38 @@ public class Configurator {
         }
     }
 
-    // Авторизация, подключение слушателей, установка статуса и начало работы бота
+    // Авторизация, подключение слушателей, установка статуса,
+    // восстановление работы над группами из ранее добавленных, начало работы бота
     public void start() {
         login();
         setDefaultStatus();
-        enableListeners();
+        enableCommandListener();
+        try {
+            continueWorkingWithGroups();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.out.println("Bot is started!");
-    }
-
-    public void setStatus(String newStatus) {
-        api.updateActivity(ACTIVITY, newStatus);
-    }
-
-    public boolean isAutoWork() {
-        return autoWork;
     }
 
     public String getMainRole() {
         return mainRole;
     }
 
+    public boolean isAutoWork() {
+        return autoWork;
+    }
+
     public void setAutoWork(boolean work) {
         autoWork = work;
+    }
+
+    public void setStatus(String newStatus) {
+        api.updateActivity(ACTIVITY, newStatus);
+    }
+
+    public void enableCommandListener() {
+        api.addListener(new CommandListener(this, dispatcher));
     }
 
     public void enableNewListener(MessageCreateListener listener) {
@@ -70,10 +80,6 @@ public class Configurator {
         System.exit(0);
     }
 
-    private void enableListeners() {
-        api.addListener(new CommandListener(this, dispatcher));
-    }
-
     private void login() {
         api = new DiscordApiBuilder().setToken(getToken()).login().join();
     }
@@ -86,7 +92,7 @@ public class Configurator {
         return config.getProperty("botToken");
     }
 
-    public VkDispatcher getDispatcher() {
-        return dispatcher;
+    private void continueWorkingWithGroups() throws Exception {
+        dispatcher.continueWorkingWithGroupsInDispacher();
     }
 }

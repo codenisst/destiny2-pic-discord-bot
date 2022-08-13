@@ -7,12 +7,12 @@ public class Bot {
 
     public static void main(String[] args) {
         VkDispatcher dispatcher = new VkDispatcher(
-                "jdbc:sqlite:databasepost.sqlite");
+                "jdbc:sqlite:databasepost.sqlite",
+                "src/main/resources/config/vkConfig.properties");
 
         Configurator configurator = new Configurator(
                 "src/main/resources/config/botConfig.properties", dispatcher);
 
         configurator.start();
     }
-
 }

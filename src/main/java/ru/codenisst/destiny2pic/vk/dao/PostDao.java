@@ -1,7 +1,6 @@
 package ru.codenisst.destiny2pic.vk.dao;
 
 import ru.codenisst.destiny2pic.vk.models.Content;
-import ru.codenisst.destiny2pic.vk.models.Group;
 import ru.codenisst.destiny2pic.vk.models.Post;
 
 import java.sql.Connection;
@@ -36,7 +35,14 @@ public class PostDao {
         for (Post post : posts) {
 
             String linkId = post.getOwnerId() + "_" + post.getId();
-            String valuePostQuery = String.format("INSERT OR IGNORE INTO post " +
+
+            /* TODO
+                    Придумать, как избежать детекта символа ' в строке
+                    "Новая работа от Flauzino_FLZ - Lubrae's Ruin."
+                    вызывает SQLITE_ERROR [SQLITE_ERROR] SQL error or missing database
+                    (near "s": syntax error)
+             */
+            String valuePostQuery = String.format("INSERT OR FAIL INTO post " +
                             "VALUES ('%s', %d, %d, '%s');",
                     linkId, post.getOwnerId(), post.getId(), post.getText());
 
@@ -45,7 +51,7 @@ public class PostDao {
             for (Content content : post.getContentList()) {
 
                 String contentLinkId = linkId + "_" + content.getId();
-                String valueContent = String.format("INSERT OR IGNORE INTO content " +
+                String valueContent = String.format("INSERT OR FAIL INTO content " +
                                 "VALUES ('%s', '%s', %d, '%s', '%s');",
                         contentLinkId, linkId, content.getId(), content.getType(), content.getUrl());
 
@@ -57,16 +63,14 @@ public class PostDao {
     public List<Post> getAllSavedPostsWithPictures() throws SQLException {
         List<Post> result = new ArrayList<>();
 
-        String queryPost =
-                "SELECT post_link_id, post_owner_id, post_id, post_text " +
+        String queryPost = "SELECT post_link_id, post_owner_id, post_id, post_text " +
                         "FROM post;";
         ResultSet postsSet = connection.createStatement().executeQuery(queryPost);
 
         while (postsSet.next()) {
 
             String linkId = postsSet.getString("post_link_id");
-            String queryContent =
-                    "SELECT content_id, content_type, content_url " +
+            String queryContent = "SELECT content_id, content_type, content_url " +
                             "FROM content " +
                             "WHERE post_link_id = '" + linkId + "' " +
                             "AND content_type = 'photo'";
@@ -89,17 +93,32 @@ public class PostDao {
         return result;
     }
 
-    public void removeAllFromGroups(Group group) {
+    public void removeAllFromGroup(int groupId) {
         try {
             String query1 = "PRAGMA foreign_keys = ON";
             statement.execute(query1);
 
             String query2 = "DELETE FROM post WHERE post_owner_id =" +
-                    group.getId();
+                    groupId;
             statement.execute(query2);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<String> getAllGroupsIdsFromDatabase() throws SQLException {
+        String query = "SELECT post_owner_id " +
+                "FROM post " +
+                "GROUP BY post_owner_id";
+
+        List<String> resultList = new ArrayList<>();
+        ResultSet resultFromDB = connection.createStatement().executeQuery(query);
+
+        while (resultFromDB.next()) {
+            resultList.add(resultFromDB.getString(1));
+        }
+
+        return resultList;
     }
 
     private void createTablePostIfExist(Statement statement) throws SQLException {

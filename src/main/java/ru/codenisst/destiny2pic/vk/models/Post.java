@@ -2,7 +2,6 @@ package ru.codenisst.destiny2pic.vk.models;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.StringJoiner;
 
 public class Post {
 
@@ -54,19 +53,5 @@ public class Post {
         result = 31 * result + (text != null ? text.hashCode() : 0);
         result = 31 * result + (contentList != null ? contentList.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        StringJoiner stringJoiner = new StringJoiner(",\n");
-        if (contentList != null && contentList.size() > 0) {
-            for (Content content:contentList) {
-                stringJoiner.add(content.getType() + " " + content.getId() + " - " + content.getUrl());
-            }
-        }
-        return "Пост id - " + id
-                + "\nОткуда пост - " + ownerId
-                + "\nТекст поста - " + text
-                + "\nСсылки на контент:\n" + stringJoiner + "\n";
     }
 }

@@ -1,4 +1,4 @@
-package ru.codenisst.destiny2pic.vk.models.postbody;
+package ru.codenisst.destiny2pic.vk.models.postschema;
 
 import java.io.Serializable;
 

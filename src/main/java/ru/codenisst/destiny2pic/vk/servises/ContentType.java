@@ -1,7 +1,5 @@
 package ru.codenisst.destiny2pic.vk.servises;
 
-import ru.codenisst.destiny2pic.bot.speech.Returner;
-
 public enum ContentType implements Returner {
 
     PHOTO {

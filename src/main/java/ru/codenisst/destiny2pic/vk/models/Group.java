@@ -1,20 +1,18 @@
 package ru.codenisst.destiny2pic.vk.models;
 
-import java.util.Objects;
-
 public class Group {
 
-    private String name;
-    private int id;
+    private final String name;
+    private final String nameLink;
+    private final int id;
+    private final String contentType;
     private final int quantityParsedPosts;
 
-    public Group(String name, int quantityParsedPosts) {
+    public Group(String name, int id, String nameLink, String contentType, int quantityParsedPosts) {
         this.name = name;
-        this.quantityParsedPosts = quantityParsedPosts;
-    }
-
-    public Group(int id, int quantityParsedPosts) {
         this.id = id;
+        this.nameLink = nameLink;
+        this.contentType = contentType;
         this.quantityParsedPosts = quantityParsedPosts;
     }
 
@@ -22,16 +20,24 @@ public class Group {
         return name;
     }
 
-    public int getParsedPostsQuantity() {
-        return quantityParsedPosts;
-    }
-
     public int getId() {
         return id;
     }
 
+    public String getNameLink() {
+        return nameLink;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public int getParsedPostsQuantity() {
+        return quantityParsedPosts;
+    }
+
     public boolean haveName() {
-        return name != null && !name.equals("");
+        return nameLink != null && !nameLink.equals("");
     }
 
     @Override
@@ -43,13 +49,15 @@ public class Group {
 
         if (id != group.id) return false;
         if (quantityParsedPosts != group.quantityParsedPosts) return false;
-        return Objects.equals(name, group.name);
+        if (nameLink != null ? !nameLink.equals(group.nameLink) : group.nameLink != null) return false;
+        return contentType != null ? contentType.equals(group.contentType) : group.contentType == null;
     }
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
+        int result = nameLink != null ? nameLink.hashCode() : 0;
         result = 31 * result + id;
+        result = 31 * result + (contentType != null ? contentType.hashCode() : 0);
         result = 31 * result + quantityParsedPosts;
         return result;
     }
