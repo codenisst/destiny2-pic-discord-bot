@@ -15,13 +15,15 @@ import java.util.List;
 @Component("dao")
 public class PostDao {
 
+    private Connection connection;
     private Statement statement;
 
     @Autowired
     public PostDao(Connection connection) {
         try {
-            System.out.println("База данных подключена!");
+            this.connection = connection;
             statement = connection.createStatement();
+            System.out.println("База данных подключена!");
 
             createTablePostIfExist(statement);
             createTableContentIfExist(statement);
@@ -40,7 +42,6 @@ public class PostDao {
                     "Новая работа от Flauzino_FLZ - Lubrae's Ruin."
                     вызывает SQLITE_ERROR [SQLITE_ERROR] SQL error or missing database
                     (near "s": syntax error).
-                    Пофиксить экзепшены от ResultSet (может быть только один resultSet у statement)
              */
             String valuePostQuery = String.format("INSERT OR FAIL INTO post " +
                             "VALUES ('%s', %d, %d, '%s');",
@@ -66,7 +67,7 @@ public class PostDao {
         String queryPost = "SELECT post_link_id, post_owner_id, post_id, post_text " +
                         "FROM post;";
 
-        ResultSet postsSet = statement.executeQuery(queryPost);
+        ResultSet postsSet = connection.createStatement().executeQuery(queryPost);
 
             while (postsSet.next()) {
 
@@ -76,7 +77,7 @@ public class PostDao {
                         "WHERE post_link_id = '" + linkId + "' " +
                         "AND content_type = 'photo'";
 
-                ResultSet contentSet = statement.executeQuery(queryContent);
+                ResultSet contentSet = connection.createStatement().executeQuery(queryContent);
 
                 List<Content> content = new ArrayList<>();
                 while (contentSet.next()) {

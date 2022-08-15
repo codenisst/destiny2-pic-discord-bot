@@ -19,16 +19,14 @@ Commands marked with (*) are only available to users with "mainRole" role (see b
 ```
 !picture - parses and sends new posts with pictures to the chat
 !help - get help on commands
-!auto (*) - turn on autoposting (by default parsing and posting occurs every 30 minutes)
-!offAuto (*) - turn off autoposting 
+!enableAuto (*) - turn on autoposting (by default parsing and posting occurs every 30 minutes)
+!disableAuto (*) - turn off autoposting 
 !status (*) - allows to change bot's status
-!disconnect (*) - disconnects bot
+!exit (*) - disconnects bot
 !addGroups (*) - allows you to add groups to the bot parser
-!groupList (*) - sends the list of groups, with which the bot parser is working at the moment
+!showGroups - sends the list of groups, with which the bot parser is working at the moment
 !deleteGroups (*) - deletes groups from the bot parser
 !deleteAllGroups (*) - deletes ALL groups from the bot parser
-!stop (*) - tells the bot that the desired groups are specified, 
-required to complete the !addGroups, !deleteGroups, !deleteAllGroups
 
 *functional is gradually expanding*
 ```
@@ -54,16 +52,14 @@ required to complete the !addGroups, !deleteGroups, !deleteAllGroups
 ```
 !picture - парсит и отправляет в чат новые посты с изображениями
 !help - присылает справку по командам
-!auto (*) - включает автопостинг (по дефолту парсинг и постинг проиcходит каждые 30 минут)
-!offAuto (*) - отключает автопостинг
+!enableAuto (*) - включает автопостинг (по дефолту парсинг и постинг проиcходит каждые 30 минут)
+!disableAuto (*) - отключает автопостинг
 !status (*) - позволяет сменить статус бота
-!disconnect (*) - выключает бота
+!exit (*) - выключает бота
 !addGroups (*) - позволяет добавлять группы в парсер бота
-!groupList (*) - присылает список групп, с которыми на данный момент работает парсер
+!showGroups - присылает список групп, с которыми на данный момент работает парсер
 !deleteGroups (*) - удаляет группы из парсера бота
 !deleteAllGroups (*) - удаляет ВСЕ группы из парсера бота
-!stop (*) - сообщает боту о том, что нужные группы указаны, 
-обязательна для завершения работы команд !addGroups, !deleteGroups, !deleteAllGroups
 
 *функционал постепенно дополняется*
 ```
