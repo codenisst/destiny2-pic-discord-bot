@@ -1,7 +1,7 @@
-package ru.codenisst.destiny2pic.bot.commands.moves;
+package ru.codenisst.destiny2pic.bot.handlerproviders.handlers.moves;
 
+import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.MessageBuilder;
-import org.javacord.api.event.message.MessageCreateEvent;
 import ru.codenisst.destiny2pic.bot.speech.Phrase;
 import ru.codenisst.destiny2pic.vk.VkDispatcher;
 import ru.codenisst.destiny2pic.vk.models.Content;
@@ -20,23 +20,24 @@ public class Request {
         this.vkDispatcher = vkDispatcher;
     }
 
-    public void sendNewPictures(MessageCreateEvent event) {
+    public void sendNewPictures(TextChannel channel) {
         try {
             List<Post> posts = vkDispatcher.getNewPostsWithPictures();
             if (posts.size() > 0) {
-                new MessageBuilder().append(Phrase.NEW_POST.get()).send(event.getChannel());
-                createMessagePart(event, posts);
+                new MessageBuilder().append(Phrase.NEW_POST.get()).send(channel);
+                createMessagePart(channel, posts);
             } else {
                 new MessageBuilder().append(Phrase.NOT_FOUND.get())
-                        .send(event.getChannel()).thenAccept(message ->
+                        .send(channel).thenAccept(message ->
                                 message.addReaction("\uD83D\uDE22"));
             }
         } catch (Exception e) {
-            event.getChannel().sendMessage(Phrase.ALARM.get() + e.getMessage());
+            e.printStackTrace();
+            channel.sendMessage(Phrase.ALARM.get() + e.getMessage());
         }
     }
 
-    private void createMessagePart(MessageCreateEvent event, List<Post> posts) throws IOException {
+    private void createMessagePart(TextChannel channel, List<Post> posts) throws IOException {
         for (Post post : posts) {
             MessageBuilder messagePost = new MessageBuilder().
                     append(Phrase.DELIMITER.get()).append(post.getText());
@@ -44,7 +45,7 @@ public class Request {
             for (Content content : contents) {
                 messagePost.addAttachment(ImageIO.read(new URL(content.getUrl())), "image.jpg");
             }
-            messagePost.send(event.getChannel()).thenAccept(message ->
+            messagePost.send(channel).thenAccept(message ->
                     message.addReactions("\t\uD83D\uDE0D", "\uD83E\uDD2E"));
         }
     }

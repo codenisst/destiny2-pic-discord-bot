@@ -1,4 +1,4 @@
-package ru.codenisst.destiny2pic.bot.commands;
+package ru.codenisst.destiny2pic.bot.handlerproviders.handlers;
 
 import org.javacord.api.event.message.MessageCreateEvent;
 import ru.codenisst.destiny2pic.bot.speech.Phrase;

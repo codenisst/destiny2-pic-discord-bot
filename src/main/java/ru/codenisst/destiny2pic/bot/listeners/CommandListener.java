@@ -1,72 +1,63 @@
 package ru.codenisst.destiny2pic.bot.listeners;
 
-import org.javacord.api.entity.permission.Role;
+import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.codenisst.destiny2pic.bot.Configurator;
-import ru.codenisst.destiny2pic.bot.commands.*;
-import ru.codenisst.destiny2pic.vk.VkDispatcher;
+import ru.codenisst.destiny2pic.bot.handlerproviders.CommandHandlerProvider;
+import ru.codenisst.destiny2pic.bot.handlerproviders.handlers.UnknownCommand;
+import ru.codenisst.destiny2pic.bot.speech.Phrase;
 
-import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import java.util.Map;
 
+@Component
 public class CommandListener implements MessageCreateListener {
 
+    @Resource(name = "handlerProviders")
+    private final Map<String, CommandHandlerProvider> handlerProviders;
     private final Configurator configurator;
-    private final VkDispatcher dispatcher;
 
-    public CommandListener(Configurator configurator, VkDispatcher dispatcher) {
+    @Autowired
+    public CommandListener(Map<String, CommandHandlerProvider> handlerProviders,
+                           Configurator configurator) {
+        this.handlerProviders = handlerProviders;
         this.configurator = configurator;
-        this.dispatcher = dispatcher;
+    }
+
+    @PostConstruct
+    public void init() {
+        configurator.enableCommandListener(this);
+        for (String key : handlerProviders.keySet()) {
+            handlerProviders.get(key).setCommandListener(this);
+        }
     }
 
     @Override
     public void onMessageCreate(MessageCreateEvent event) {
 
         String[] command = event.getMessageContent().split(" ");
+        TextChannel channel = event.getChannel();
 
-        if (command[0].matches("^!\\D+$")) {
-
-            switch (command[0]) {
-                case "!picture" -> new Picture(event, dispatcher).start();
-
-                case "!groupList" -> new GroupList(event, dispatcher, isDev(event)).start();
-
-                case "!addGroups" ->
-                        new AddGroups(event, configurator, dispatcher, this, isDev(event)).start();
-
-                case "!deleteGroups" -> new DeleteGroups(event, configurator, dispatcher,
-                        this, isDev(event)).start();
-
-                case "!deleteAllGroups" -> new DeleteAllGroups(event, dispatcher, isDev(event)).start();
-
-                case "!auto" -> new Auto(event, configurator, dispatcher, command, isDev(event)).start();
-
-                case "!offAuto" -> new OffAuto(event, configurator, isDev(event)).start();
-
-                case "!status" -> new Status(event, configurator, this, isDev(event)).start();
-
-                case "!disconnect" -> new Disconnect(event, configurator, isDev(event)).start();
-
-                case "!help" -> new Help(event).start();
-
-                default -> new UnknownCommand(event).start();
-            }
+        if (!command[0].matches("^!\\D+$")) {
+            return;
         }
-    }
 
-    private boolean isDev(MessageCreateEvent event) {
-        List<Role> eventUserRoles = event.getMessage()
-                .getAuthor()
-                .asUser()
-                .get()
-                .getRoles(event
-                        .getServer()
-                        .get());
-        for (Role role : eventUserRoles) {
-            if (role.getName().equalsIgnoreCase(configurator.getMainRole())) {
-                return true;
-            }
+        CommandHandlerProvider handlerProvider = handlerProviders.get(command[0]);
+
+        if (handlerProvider == null) {
+            new UnknownCommand(event).start();
+            return;
         }
-        return false;
+
+        if (!handlerProvider.isCommandAllowed(event)) {
+            channel.sendMessage(Phrase.NO_RIGHT.get());
+            return;
+        }
+
+        handlerProvider.getHandler(channel).start();
     }
 }

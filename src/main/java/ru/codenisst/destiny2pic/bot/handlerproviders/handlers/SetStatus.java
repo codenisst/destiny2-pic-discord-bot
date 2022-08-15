@@ -1,38 +1,29 @@
-package ru.codenisst.destiny2pic.bot.commands;
+package ru.codenisst.destiny2pic.bot.handlerproviders.handlers;
 
-import org.javacord.api.event.message.MessageCreateEvent;
+import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.listener.message.MessageCreateListener;
 import ru.codenisst.destiny2pic.bot.Configurator;
 import ru.codenisst.destiny2pic.bot.listeners.CommandListener;
 import ru.codenisst.destiny2pic.bot.listeners.StatusListener;
 import ru.codenisst.destiny2pic.bot.speech.Phrase;
 
-public class Status extends Thread{
+public class SetStatus extends Thread{
 
-    private final MessageCreateEvent event;
+    private final TextChannel channel;
     private final Configurator configurator;
     private final CommandListener commandListener;
-    private final boolean isDev;
 
-    public Status(MessageCreateEvent event, Configurator configurator, CommandListener commandListener, boolean isDev) {
-        this.event = event;
+    public SetStatus(TextChannel channel, Configurator configurator, CommandListener commandListener) {
+        this.channel = channel;
         this.configurator = configurator;
         this.commandListener = commandListener;
-        this.isDev = isDev;
     }
 
     @Override
     public void run() {
-
-        if(isDev) {
-            event.getChannel().sendMessage(Phrase.PLAYING.get());
+            channel.sendMessage(Phrase.PLAYING.get());
             configurator.disableListener(commandListener);
             configurator.enableNewListener(new StatusListener(configurator, this));
-
-            return;
-        }
-
-        event.getChannel().sendMessage(Phrase.NO_RIGHT.get());
     }
 
     public void end(MessageCreateListener listener) {

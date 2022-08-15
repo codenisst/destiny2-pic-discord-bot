@@ -1,7 +1,6 @@
 package ru.codenisst.destiny2pic.vk.servises;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
 import com.vk.api.sdk.exceptions.ApiException;
@@ -10,38 +9,33 @@ import com.vk.api.sdk.objects.groups.responses.GetByIdObjectLegacyResponse;
 import com.vk.api.sdk.objects.wall.GetFilter;
 import com.vk.api.sdk.objects.wall.WallpostFull;
 import com.vk.api.sdk.objects.wall.responses.GetResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.codenisst.destiny2pic.vk.models.groupschema.GroupItem;
 import ru.codenisst.destiny2pic.vk.models.Group;
 import ru.codenisst.destiny2pic.vk.models.postschema.Item;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.StringJoiner;
 
+@Component("parser")
 public class GroupParser {
 
-    private final String ERROR = "Введены неверные данные пользователя для парсинга!\n" +
-            "Проверьте файл vkConfig.properties!";
     private final VkApiClient vkApi;
     private List<Group> groups;
     private final UserActor user;
     private final Gson gson;
 
-    public GroupParser(VkApiClient vkApi, String vkConfig) {
-        try {
-            Properties config = new Properties();
-            config.load(new FileInputStream(vkConfig));
-            this.vkApi = vkApi;
-            this.groups = new ArrayList<>();
-            user = new UserActor(Integer.parseInt(config.getProperty("userId")),
-                    config.getProperty("access_token"));
-            gson = new GsonBuilder().create();
-        } catch (IOException e) {
-            throw new RuntimeException(ERROR);
-        }
+    @Autowired
+    public GroupParser(VkApiClient vkApi,
+                       List<Group> groupList,
+                       UserActor userActor,
+                       Gson gson) {
+        this.vkApi = vkApi;
+        this.groups = groupList;
+        this.user = userActor;
+        this.gson = gson;
     }
 
     // возвращает список постов из групп в работе

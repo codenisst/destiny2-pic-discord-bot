@@ -1,32 +1,31 @@
 package ru.codenisst.destiny2pic.vk.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.codenisst.destiny2pic.vk.models.Content;
 import ru.codenisst.destiny2pic.vk.models.Post;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component("dao")
 public class PostDao {
 
-    // "jdbc:sqlite:databasepost.sqlite"
-    private Connection connection;
     private Statement statement;
 
-    public PostDao(String dbConnectionUrl) {
+    @Autowired
+    public PostDao(Connection connection) {
         try {
-            Class.forName("org.sqlite.JDBC");
-            this.connection = DriverManager.getConnection(dbConnectionUrl);
             System.out.println("База данных подключена!");
             statement = connection.createStatement();
 
             createTablePostIfExist(statement);
             createTableContentIfExist(statement);
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -40,7 +39,8 @@ public class PostDao {
                     Придумать, как избежать детекта символа ' в строке
                     "Новая работа от Flauzino_FLZ - Lubrae's Ruin."
                     вызывает SQLITE_ERROR [SQLITE_ERROR] SQL error or missing database
-                    (near "s": syntax error)
+                    (near "s": syntax error).
+                    Пофиксить экзепшены от ResultSet (может быть только один resultSet у statement)
              */
             String valuePostQuery = String.format("INSERT OR FAIL INTO post " +
                             "VALUES ('%s', %d, %d, '%s');",
@@ -65,30 +65,31 @@ public class PostDao {
 
         String queryPost = "SELECT post_link_id, post_owner_id, post_id, post_text " +
                         "FROM post;";
-        ResultSet postsSet = connection.createStatement().executeQuery(queryPost);
 
-        while (postsSet.next()) {
+        ResultSet postsSet = statement.executeQuery(queryPost);
 
-            String linkId = postsSet.getString("post_link_id");
-            String queryContent = "SELECT content_id, content_type, content_url " +
-                            "FROM content " +
-                            "WHERE post_link_id = '" + linkId + "' " +
-                            "AND content_type = 'photo'";
+            while (postsSet.next()) {
 
-            ResultSet contentSet = connection.createStatement().executeQuery(queryContent);
+                String linkId = postsSet.getString("post_link_id");
+                String queryContent = "SELECT content_id, content_type, content_url " +
+                        "FROM content " +
+                        "WHERE post_link_id = '" + linkId + "' " +
+                        "AND content_type = 'photo'";
 
-            List<Content> content = new ArrayList<>();
-            while (contentSet.next()) {
-                content.add(new Content(contentSet.getInt("content_id"),
-                        contentSet.getString("content_type"),
-                        contentSet.getString("content_url")));
+                ResultSet contentSet = statement.executeQuery(queryContent);
+
+                List<Content> content = new ArrayList<>();
+                while (contentSet.next()) {
+                    content.add(new Content(contentSet.getInt("content_id"),
+                            contentSet.getString("content_type"),
+                            contentSet.getString("content_url")));
+                }
+
+                result.add(new Post(postsSet.getInt("post_owner_id"),
+                        postsSet.getInt("post_id"),
+                        postsSet.getString("post_text"),
+                        content));
             }
-
-            result.add(new Post(postsSet.getInt("post_owner_id"),
-                    postsSet.getInt("post_id"),
-                    postsSet.getString("post_text"),
-                    content));
-        }
 
         return result;
     }
@@ -112,7 +113,7 @@ public class PostDao {
                 "GROUP BY post_owner_id";
 
         List<String> resultList = new ArrayList<>();
-        ResultSet resultFromDB = connection.createStatement().executeQuery(query);
+        ResultSet resultFromDB = statement.executeQuery(query);
 
         while (resultFromDB.next()) {
             resultList.add(resultFromDB.getString(1));

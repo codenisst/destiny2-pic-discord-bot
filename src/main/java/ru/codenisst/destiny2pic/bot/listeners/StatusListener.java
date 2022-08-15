@@ -3,15 +3,15 @@ package ru.codenisst.destiny2pic.bot.listeners;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
 import ru.codenisst.destiny2pic.bot.Configurator;
-import ru.codenisst.destiny2pic.bot.commands.Status;
+import ru.codenisst.destiny2pic.bot.handlerproviders.handlers.SetStatus;
 import ru.codenisst.destiny2pic.bot.speech.Phrase;
 
 public class StatusListener implements MessageCreateListener {
 
     private final Configurator configurator;
-    private final Status status;
+    private final SetStatus status;
 
-    public StatusListener(Configurator configurator, Status status) {
+    public StatusListener(Configurator configurator, SetStatus status) {
         this.configurator = configurator;
         this.status = status;
     }

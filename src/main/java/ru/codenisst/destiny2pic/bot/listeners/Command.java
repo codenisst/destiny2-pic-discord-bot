@@ -13,13 +13,13 @@ public enum Command {
     EXIT("!exit"),
     GET_HELP("!help");
 
-    private String command;
+    private String commandName;
 
-    Command(String command) {
-        this.command = command;
+    Command(String commandName) {
+        this.commandName = commandName;
     }
 
-    public String getCommand() {
-        return command;
+    public String getCommandName() {
+        return commandName;
     }
 }

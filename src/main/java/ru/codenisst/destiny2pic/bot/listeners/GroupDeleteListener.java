@@ -2,7 +2,7 @@ package ru.codenisst.destiny2pic.bot.listeners;
 
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
-import ru.codenisst.destiny2pic.bot.commands.DeleteGroups;
+import ru.codenisst.destiny2pic.bot.handlerproviders.handlers.DeleteGroups;
 import ru.codenisst.destiny2pic.bot.speech.Phrase;
 import ru.codenisst.destiny2pic.vk.VkDispatcher;
 

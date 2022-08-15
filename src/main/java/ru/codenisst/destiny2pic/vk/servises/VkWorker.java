@@ -1,5 +1,7 @@
 package ru.codenisst.destiny2pic.vk.servises;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.codenisst.destiny2pic.vk.dao.PostDao;
 import ru.codenisst.destiny2pic.vk.models.Content;
 import ru.codenisst.destiny2pic.vk.models.Post;
@@ -10,11 +12,13 @@ import ru.codenisst.destiny2pic.vk.models.postschema.Size;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component("vkWorker")
 public class VkWorker {
 
     private final GroupParser parser;
     private final PostDao dao;
 
+    @Autowired
     public VkWorker(GroupParser parser, PostDao dao) {
         this.parser = parser;
         this.dao = dao;

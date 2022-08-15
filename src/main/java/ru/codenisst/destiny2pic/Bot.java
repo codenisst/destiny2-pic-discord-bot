@@ -1,18 +1,15 @@
 package ru.codenisst.destiny2pic;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ru.codenisst.destiny2pic.bot.Configurator;
-import ru.codenisst.destiny2pic.vk.VkDispatcher;
+import ru.codenisst.destiny2pic.config.SpringConfig;
 
 public class Bot {
 
     public static void main(String[] args) {
-        VkDispatcher dispatcher = new VkDispatcher(
-                "jdbc:sqlite:databasepost.sqlite",
-                "src/main/resources/config/vkConfig.properties");
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
 
-        Configurator configurator = new Configurator(
-                "src/main/resources/config/botConfig.properties", dispatcher);
-
+        Configurator configurator = context.getBean("configurator", Configurator.class);
         configurator.start();
     }
 }
