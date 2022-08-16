@@ -37,15 +37,10 @@ public class PostDao {
 
             String linkId = post.getOwnerId() + "_" + post.getId();
 
-            /* TODO
-                    Придумать, как избежать детекта символа ' в строке
-                    "Новая работа от Flauzino_FLZ - Lubrae's Ruin."
-                    вызывает SQLITE_ERROR [SQLITE_ERROR] SQL error or missing database
-                    (near "s": syntax error).
-             */
             String valuePostQuery = String.format("INSERT OR FAIL INTO post " +
                             "VALUES ('%s', %d, %d, '%s');",
-                    linkId, post.getOwnerId(), post.getId(), post.getText());
+                    linkId, post.getOwnerId(), post.getId(),
+                    post.getText().replaceAll("'", "''"));
 
             statement.executeUpdate(valuePostQuery);
 
@@ -54,7 +49,8 @@ public class PostDao {
                 String contentLinkId = linkId + "_" + content.getId();
                 String valueContent = String.format("INSERT OR FAIL INTO content " +
                                 "VALUES ('%s', '%s', %d, '%s', '%s');",
-                        contentLinkId, linkId, content.getId(), content.getType(), content.getUrl());
+                        contentLinkId, linkId, content.getId(),
+                        content.getType(), content.getUrl().replaceAll("'", "''"));
 
                 statement.executeUpdate(valueContent);
             }

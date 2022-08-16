@@ -56,10 +56,18 @@ public class GroupParser {
     public boolean addGroup(String... groupInfo) {
         Group newGroup = new Group(groupInfo[0], Integer.parseInt(groupInfo[1]), groupInfo[2],
                 groupInfo[3], Integer.parseInt(groupInfo[4]));
-        if (!groups.contains(newGroup)) {
-            return groups.add(newGroup);
+
+        for (Group group : groups) {
+            if (group.getName().equals(newGroup.getName()) || group.getId() == newGroup.getId()) {
+                return false;
+            }
         }
-        return false;
+
+        if (groups.contains(newGroup)) {
+            return false;
+        }
+
+        return groups.add(newGroup);
     }
 
     // удаляет группу из работы

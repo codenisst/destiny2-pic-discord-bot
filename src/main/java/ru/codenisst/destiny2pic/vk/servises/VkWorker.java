@@ -31,7 +31,7 @@ public class VkWorker {
         List<Post> savedVkPostsWithPictures = dao.getAllSavedPostsWithPictures();
 
         List<Post> uniquePostsWithPictures = new ArrayList<>();
-        for (Post post:newVkPosts) {
+        for (Post post : newVkPosts) {
             if (!savedVkPostsWithPictures.contains(post)) {
                 uniquePostsWithPictures.add(post);
             }
@@ -49,6 +49,10 @@ public class VkWorker {
         // разбираем ссылку, дабы узнать, содержит она id или содержит уникальную ссылку
         String[] link = groupInfo[0].split("/");
         String groupNameOrId = link[link.length - 1];
+
+        if (groupNameOrId.matches(" ")) {
+            groupNameOrId = groupNameOrId.substring(0, groupNameOrId.indexOf(" "));
+        }
 
         int id;
         String nameLink;
@@ -70,9 +74,9 @@ public class VkWorker {
 
             } else {
 
-                id = parser.getGroupId(groupNameOrId);
-                nameLink = groupNameOrId;
-                name = parser.getGroupName(String.valueOf(id));
+                    id = parser.getGroupId(groupNameOrId);
+                    nameLink = groupNameOrId;
+                    name = parser.getGroupName(String.valueOf(id));
 
             }
 
@@ -127,16 +131,16 @@ public class VkWorker {
         List<String> groupsIdsFromDB = dao.getAllGroupsIdsFromDatabase();
         List<String> groupsLinksFromDB = new ArrayList<>();
 
-        for (String groupId:groupsIdsFromDB) {
+        for (String groupId : groupsIdsFromDB) {
             groupsLinksFromDB.add("https://vk.com/club" + groupId);
         }
 
-        for (String link:groupsLinksFromDB) {
-            String[] groupInfoFromDB = new String[] {link};
+        for (String link : groupsLinksFromDB) {
+            String[] groupInfoFromDB = new String[]{link};
             try {
                 startWorkWithGroup(groupInfoFromDB);
             } catch (Exception e) {
-                throw new Exception("Ошибка добавления в работу группы " + link +  " из БД!");
+                throw new Exception("Ошибка добавления в работу группы " + link + " из БД!");
             }
         }
     }
@@ -149,13 +153,13 @@ public class VkWorker {
     private List<Post> getPostsListWithSpecifiedContent(List<Item> items, String typeContent) {
         List<Post> result = new ArrayList<>();
 
-        for (Item item:items) {
+        for (Item item : items) {
             List<Attachment> attachments = item.getAttachments();
 
-            if(attachments != null && attachments.size() > 0) {
+            if (attachments != null && attachments.size() > 0) {
 
-                for (Attachment attachment:attachments) {
-                    if(attachment.getType().equalsIgnoreCase(typeContent)) {
+                for (Attachment attachment : attachments) {
+                    if (attachment.getType().equalsIgnoreCase(typeContent)) {
                         result.add(new Post(-item.getOwner_id(), item.getId(),
                                 item.getText(), getContentList(item, typeContent)));
                         break;
@@ -176,7 +180,7 @@ public class VkWorker {
             int contentID = 0;
             for (Attachment attachment : attachments) {
 
-                switch (attachment.getType()){
+                switch (attachment.getType()) {
                     case "photo": {
                         ArrayList<Size> attachmentSizes = attachment.getPhoto().getSizes();
                         attachmentSizes.sort((o1, o2) -> o2.getHeight() - o1.getHeight());

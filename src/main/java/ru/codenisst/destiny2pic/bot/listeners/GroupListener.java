@@ -1,5 +1,6 @@
 package ru.codenisst.destiny2pic.bot.listeners;
 
+import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
 import ru.codenisst.destiny2pic.bot.handlerproviders.handlers.AddGroups;
@@ -25,6 +26,8 @@ public class GroupListener implements MessageCreateListener {
     public void onMessageCreate(MessageCreateEvent event) {
 
         String message = event.getMessageContent();
+        String[] groupInfo = message.split(" : ");
+        TextChannel channel = event.getChannel();
 
         if (message.equals("!stop")) {
             if (addedGroups.size() > 0) {
@@ -32,10 +35,10 @@ public class GroupListener implements MessageCreateListener {
                 for (String link : addedGroups) {
                     stringJoiner.add(link);
                 }
-                event.getChannel().sendMessage(Phrase.WATCHING.get() +
+                channel.sendMessage(Phrase.WATCHING.get() +
                         "```" + stringJoiner + "```");
             } else {
-                event.getChannel().sendMessage(Phrase.NOT_FOUND_GROUP.get());
+                channel.sendMessage(Phrase.NOT_FOUND_GROUP.get());
             }
             command.end(this);
             return;
@@ -46,22 +49,20 @@ public class GroupListener implements MessageCreateListener {
                 && !message.equals(Phrase.GROUP_ADDED.get())
                 && !message.equals(Phrase.INCORRECT_LINK.get())) {
 
-            if (event.getMessageContent().startsWith("https://vk.com/")) {
-
-                String[] groupInfo = event.getMessageContent().split(" : ");
+            if (message.startsWith("https://vk.com/") && !groupInfo[0].contains(" ")) {
 
                 try {
                     if (dispatcher.addGroup(groupInfo)) {
                         addedGroups.add(groupInfo[0]);
-                        event.getChannel().sendMessage(Phrase.GROUP_ADDED.get());
+                        channel.sendMessage(Phrase.GROUP_ADDED.get());
                     } else {
-                        event.getChannel().sendMessage(Phrase.GROUP_ALREADY_ADDED.get());
+                        channel.sendMessage(Phrase.GROUP_ALREADY_ADDED.get());
                     }
                 } catch (Exception e) {
-                    event.getChannel().sendMessage(e.getMessage());
+                    channel.sendMessage(Phrase.INCORRECT_LINK.get());
                 }
             } else {
-                event.getChannel().sendMessage(Phrase.INCORRECT_LINK.get());
+                channel.sendMessage(Phrase.INCORRECT_LINK.get());
             }
         }
     }
